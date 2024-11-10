@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "tradeup/test",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Projeto criado para avaliação do time da TradeUp Group",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {

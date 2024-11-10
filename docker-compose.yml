@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/app
+      - storage:/var/www/app/storage
+      - laravel_cache:/var/www/app/bootstrap/cache
+      - entrypoint:/var/www/app/webserver
+    env_file:
+      - .env
+    ports:
+      - "8082:80"
+    networks:
+      - localhost
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - localhost
+
+volumes:
+  storage:
+  laravel_cache:
+  entrypoint:
+
+networks:
+  localhost:
+    driver: bridge
