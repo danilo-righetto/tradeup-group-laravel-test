@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Cep;
 
 class SearchCepRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class SearchCepRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,15 @@ class SearchCepRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'cep' => ['required', new Cep, 'max:9']
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'cep.required' => 'O campo cep é obrigatório.',
+            'cep.max' => 'O campo cep não pode ter mais que 9 caracteres.'
         ];
     }
 }

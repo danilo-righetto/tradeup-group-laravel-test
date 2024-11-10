@@ -49,6 +49,8 @@ COPY . /var/www/app
 
 RUN rm -f composer.lock
 
+RUN composer install
+
 # Execução dos serviços e "levantar" a aplicação
 RUN chmod +x /var/www/app/webserver/entrypoint.sh
 RUN rm -r webserver/*.conf && rm -r webserver/*.ini
@@ -57,6 +59,8 @@ RUN rm -r webserver/*.conf && rm -r webserver/*.ini
 
 #RUN php artisan l5-swagger:generate
 #RUN cp storage/api-docs/api-docs.json public/swagger/
+
+RUN php artisan key:generate
 
 EXPOSE 80
 

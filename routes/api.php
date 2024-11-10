@@ -13,6 +13,7 @@ use App\Http\Controllers\CepController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::get('/health/live', function () {
     return response()->json(['statusAplication' => 'Healthy', 'currentTime' => date('Y-m-d H:i:s'), 'checks' => []]);
 });
@@ -22,5 +23,6 @@ Route::get('/health/ready', function () {
 });
 
 Route::middleware('api')->prefix('services')->group(function () {
-    Route::get('/cep/', [CepController::class, 'searchCep']);
+    Route::get('/cep/address', [CepController::class, 'getAddressByCep']);
+    Route::get('/cep/all', [CepController::class, 'getAllAddressInformationByCep']);
 });
