@@ -55,6 +55,12 @@ Este projeto utiliza o [Docker](https://www.docker.com/) e o [Docker Compose](ht
 ```bash
   docker-compose up -d --build
 ```
+
+Após isso execute o comando abaixo para instalar as dependências do projeto:
+
+```bash
+  docker-compose exec app composer install
+```
     
 ## Rodando os testes
 

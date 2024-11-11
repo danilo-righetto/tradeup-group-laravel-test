@@ -36,6 +36,8 @@ RUN apt-get update && \
     docker-php-ext-install curl mysqli pdo pdo_mysql && \
     docker-php-ext-enable zip redis curl memcached pdo_mysql
 
+RUN pecl install xdebug
+
 RUN update-ca-certificates
 
 
@@ -47,7 +49,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY . /var/www/app
 
-RUN rm -f composer.lock
+# RUN rm -f composer.lock
 
 RUN composer install
 
@@ -55,10 +57,10 @@ RUN composer install
 RUN chmod +x /var/www/app/webserver/entrypoint.sh
 RUN rm -r webserver/*.conf && rm -r webserver/*.ini
 
-# RUN php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+RUN php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
 
-#RUN php artisan l5-swagger:generate
-#RUN cp storage/api-docs/api-docs.json public/swagger/
+RUN php artisan l5-swagger:generate
+RUN cp storage/api-docs/api-docs.json public/swagger/
 
 RUN php artisan key:generate
 
