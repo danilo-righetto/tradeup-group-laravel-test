@@ -1,5 +1,5 @@
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://www.tradeupgroup.com/wp-content/uploads/2021/12/tradeup-300x93-1.png" width="300" alt="TradeUp Group Logo"></a></p>
+<p align="center"><a href="https://www.tradeupgroup.com" target="_blank"><img src="https://www.tradeupgroup.com/wp-content/uploads/2021/12/tradeup-300x93-1.png" width="300" alt="TradeUp Group Logo"></a></p>
 
 # Avaliação Técnica - TradeUp Group
 
@@ -22,10 +22,10 @@ Será realizado utilizando o framework laravel, e será o responsável por consu
 
 ## Funcionalidades
 
-- Consultar CEP
-- Preview em tempo real
-- Tela com um bom layout
-
+- [x] Consultar CEP
+- [x] Utilizar o Cache para persistir os CEP's já pesquisados
+- [] Realizar os testes unitários (Unit)
+- [x] Realizar os testes de integração (Feature)
 
 ## Variáveis de Ambiente
 
@@ -40,8 +40,10 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 
 A partir de um ambiente de desenvolvimento composto pelo PHP na versão 8.2 ou superior e com o Composer instalado execute o comando dentro da pasta do projeto.
 
+Este projeto utiliza o [Docker](https://www.docker.com/) e o [Docker Compose](https://docs.docker.com/compose/) para o desenvolvimento e deploy local. Antes de executar o comando abaixo verifique se você possui a última versão do **Docker** e do **Docker Compose** respectivamente:
+
 ```bash
-  composer install
+  docker-compose up -d --build
 ```
     
 ## Rodando os testes
@@ -66,30 +68,29 @@ Para rodar os testes, rode o seguinte comando
 
 A documentação da API é gerada através do [Swagger](https://swagger.io/) pela biblioteca `darkaonline/l5-swagger`. 
 
-#### Retorna todos os itens
+É possível utilizar e testar as API's a partir do link [/api/documentation](http://localhost:8082/api/documentation).
+
+<p align="center"><img src="./docs/images/swagger-docs.png" alt="Swagger Documentation"></p>
+
+#### Retorna um endereço
 
 ```http
-  GET /api/items
+  GET /api/services/cep/address
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
-| `api_key` | `string` | **Obrigatório**. A chave da sua API |
+| `cep` | `string` | **Obrigatório**. O Cep que será buscado |
 
-#### Retorna um item
+#### Retorna todos os itens de um endereço
 
 ```http
-  GET /api/items/${id}
+  GET /api/services/cep/all
 ```
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
-| `id`      | `string` | **Obrigatório**. O ID do item que você quer |
-
-#### add(num1, num2)
-
-Recebe dois números e retorna a sua soma.
-
+| `cep`      | `string` | **Obrigatório**. O Cep que será buscado |
 
 ## Stack utilizada
 

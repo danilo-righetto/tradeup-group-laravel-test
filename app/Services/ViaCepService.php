@@ -7,6 +7,7 @@ use App\Services\Base\Service;
 use App\Contracts\SearchCepInterface;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Cache;
 
 class ViaCepService extends Service implements SearchCepInterface
 {
@@ -49,14 +50,24 @@ class ViaCepService extends Service implements SearchCepInterface
     {
         $cep = preg_replace('/[^0-9]/', '', $cepCode);
 
+        if (Cache::has($cepCode)) {
+            return Cache::get($cepCode);
+        }
+
         try {
             $response = Http::get(self::URL . "$cep/json/");
 
             if(!$response->successful()) {
-                throw new Exception("Não foi possível buscar o cep informado.");
+                throw new Exception("Não foi possível buscar o endereço a partir do cep informado.");
             }
 
-            return json_decode($response->getBody(), true);
+            $cepResponse = json_decode($response->getBody(), true);
+
+            if(isset($cepResponse['erro'])) {
+                throw new Exception("Não foi possível buscar o endereço a partir do cep informado.");
+            }
+            Cache::set($cepCode, $cepResponse);
+            return $cepResponse;
         } catch (RequestException $e) {
             throw new Exception($e->getMessage());
         }
