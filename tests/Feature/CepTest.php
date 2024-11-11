@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
 use App\Enums\RequestStatusCodeEnum;
 use Tests\TestCase;
 
@@ -11,12 +10,44 @@ class CepTest extends TestCase
 {
     const URL = '/api/services/cep';
 
+    private function setHttpFakeSuccessfulResponse(): void
+    {
+        Http::fake([
+            'https://viacep.com.br/ws/02252080/json/*' => Http::response([
+                'cep' => '02252-080',
+                'logradouro' => 'Rua Mantena',
+                'complemento' => '',
+                'unidade' => '',
+                'bairro' => 'Vila Nivi',
+                'localidade' => 'São Paulo',
+                'uf' => 'SP',
+                'estado' => 'São Paulo',
+                'regiao' => 'Sudeste',
+                'ibge' => '3550308',
+                'gia' => '1004',
+                'ddd' => '11',
+                'siafi' => '7107'
+            ], 200, ['Headers']),
+        ]);
+    }
+
+    private function setHttpFakeErrorResponse(): void
+    {
+        Http::fake([
+            'https://viacep.com.br/ws/99999999/json/*' => Http::response([
+                'erro' => 'true'
+            ], 400, ['Headers']),
+        ]);
+    }
+
     /*
      * Tests for endpoint /api/services/cep/address
      */
     public function test_get_address_by_cep_returns_a_successful_response(): void
     {
         /* Arrange */
+        $this->setHttpFakeSuccessfulResponse();
+
         $cep = '02252-080';
         $expectedData = [
             'version' => env('VERSION'),
@@ -41,6 +72,8 @@ class CepTest extends TestCase
     public function test_get_address_by_cep_with_wrong_zip_code(): void
     {
         /* Arrange */
+        $this->setHttpFakeErrorResponse();
+
         $cep = '99999-999';
         $expectedData = [
             'version' => env('VERSION'),
@@ -111,6 +144,8 @@ class CepTest extends TestCase
     public function test_get_all_address_information_by_cep_returns_a_successful_response(): void
     {
         /* Arrange */
+        $this->setHttpFakeSuccessfulResponse();
+
         $cep = '02252-080';
         $expectedData = [
             'version' => env('VERSION'),
@@ -151,6 +186,8 @@ class CepTest extends TestCase
     public function test_get_all_address_information_by_cep_with_wrong_zip_code(): void
     {
         /* Arrange */
+        $this->setHttpFakeErrorResponse();
+
         $cep = '99999-999';
         $expectedData = [
             'version' => env('VERSION'),

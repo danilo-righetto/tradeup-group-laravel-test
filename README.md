@@ -7,9 +7,10 @@ Esse é um teste técnico para a vaga de **Backend** para a empresa **TradeUp Gr
 
 ## Requisitos
 
-Criar uma aplicação em **Laravel** com **Vuex**, que realiza uma consulta de **CEP** a partir de uma API externa.
+Criar uma aplicação em **PHP**, que realiza uma consulta de **CEP** a partir de uma API externa.
+Para a criação da aplicação foi utilizado o framework [Laravel 11](https://laravel.com/).
 
-### Frontend
+### Frontend (Opicional)
 
 É necessário ter pelo menos duas páginas:
 - HOME - Página principal do mini sistema, com uma descrição, imagem principal e botão para a página **CONSULTA CEP**
@@ -24,16 +25,25 @@ Será realizado utilizando o framework laravel, e será o responsável por consu
 
 - [x] Consultar CEP
 - [x] Utilizar o Cache para persistir os CEP's já pesquisados
-- [] Realizar os testes unitários (Unit)
+- [x] Realizar os testes unitários (Unit)
 - [x] Realizar os testes de integração (Feature)
 
 ## Variáveis de Ambiente
 
 Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de ambiente no seu .env
 
-`API_KEY`
 
-`ANOTHER_API_KEY`
+- `APP_NAME=TradeUp-Group-Test`
+- `APP_LOCALE=pt_BR`
+- `APP_FALLBACK_LOCALE=pt_BR`
+- `APP_FAKER_LOCALE=pt_BR`
+- `REDIS_CLIENT=phpredis`
+- `REDIS_HOST=redis`
+- `REDIS_PASSWORD=null`
+- `REDIS_PORT=6379`
+- `REDIS_QUEUE_CONNECTION=default`
+- `REDIS_QUEUE=default`
+- `VERSION=1.0.0`
 
 
 ## Instalação
@@ -48,20 +58,25 @@ Este projeto utiliza o [Docker](https://www.docker.com/) e o [Docker Compose](ht
     
 ## Rodando os testes
 
-Para rodar os testes, rode o seguinte comando
+Para rodar os testes, execute o comando dentro do container `app`:
 
 ```bash
-  npm run test
+  php artisan test
 ```
 
+ou
+
+```bash
+  docker-compose exec app php artisan test
+```
+
+<p align="center"><img src="./docs/images/application-tests.png" alt="PHPUnit tests"></p>
 
 ## Documentação
 
 - [PHP](https://www.php.net/manual/pt_BR/index.php)
 - [Laravel](https://laravel.com/docs)
 - [Composer](https://getcomposer.org/)
-- [Vuex](https://vuex.vuejs.org/)
-- [Vuejs](https://vuejs.org/)
 
 
 ## Documentação da API
@@ -93,8 +108,6 @@ A documentação da API é gerada através do [Swagger](https://swagger.io/) pel
 | `cep`      | `string` | **Obrigatório**. O Cep que será buscado |
 
 ## Stack utilizada
-
-**Front-end:** Vuejs, Vuex, Typescript
 
 **Back-end:** Laravel, PHP
 

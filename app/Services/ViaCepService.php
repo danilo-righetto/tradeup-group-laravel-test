@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use Exception;
-use App\Services\Base\Service;
+use GuzzleHttp\Exception\RequestException;
 use App\Contracts\SearchCepInterface;
 use Illuminate\Support\Facades\Http;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cache;
+use App\Services\Base\Service;
+use Exception;
 
 class ViaCepService extends Service implements SearchCepInterface
 {
